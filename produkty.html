@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produkty — Avando Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #78cc90; --green-dark: #5ab876;
+    --navy: #002255; --navy-light: #003380; --navy-dark: #001533;
+    --white: #ffffff; --gray-100: #f4f5f7; --gray-200: #e8eaed;
+    --gray-400: #9ca3af; --gray-600: #4b5563; --gray-800: #1f2937;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); color: var(--gray-800); background: var(--white); overflow-x: hidden; }
+
+  /* TOPBAR */
+  .topbar-main { background: var(--white); padding: 16px 0; }
+  .topbar-main-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 32px; }
+  .topbar-contacts { display: flex; gap: 40px; margin-left: auto; align-items: center; }
+  .topbar-contact-item { text-align: center; }
+  .tc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-400); margin-bottom: 4px; }
+  .tc-value { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .topbar-socials { display: flex; gap: 10px; margin-left: 32px; }
+  .ts-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: var(--white); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.2s; }
+  .ts-icon svg { width: 18px; height: 18px; }
+  .ts-icon:hover { background: var(--green); color: var(--navy); transform: translateY(-2px); }
+  .header-separator { height: 3px; background: var(--green); }
+
+  /* NAV */
+  nav { background: var(--white); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,34,85,0.10); }
+  .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: flex-end; height: 56px; }
+  .nav-links { display: flex; list-style: none; }
+  .nav-links a { font-family: var(--font-display); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); text-decoration: none; padding: 18px 16px; display: block; position: relative; transition: color 0.2s; }
+  .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 16px; right: 16px; height: 3px; background: var(--green); transform: scaleX(0); transition: transform 0.25s ease; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green-dark); }
+  .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+
+  /* HERO */
+  .page-hero { background: var(--navy); padding: 80px 0 72px; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(120,204,144,0.05) 39px, rgba(120,204,144,0.05) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(120,204,144,0.05) 39px, rgba(120,204,144,0.05) 40px); }
+  .page-hero-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .page-hero-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 16px; }
+  .page-hero-tag::before { content: ''; width: 28px; height: 2px; background: var(--green); }
+  .page-hero h1 { font-family: var(--font-display); font-size: clamp(48px, 7vw, 80px); font-weight: 800; line-height: 0.95; color: var(--white); text-transform: uppercase; letter-spacing: -1px; margin-bottom: 20px; }
+  .page-hero h1 span { color: var(--green); }
+  .page-hero p { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.75; }
+  .hero-brands { display: flex; flex-direction: column; gap: 12px; }
+  .hero-brand-item { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 16px 20px; transition: border-color 0.2s; }
+  .hero-brand-item:hover { border-color: rgba(120,204,144,0.4); }
+  .hero-brand-dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+  .hero-brand-name { font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--white); letter-spacing: 1px; }
+  .hero-brand-desc { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+  /* CATEGORY NAV */
+  .cat-nav { background: var(--gray-100); border-bottom: 1px solid var(--gray-200); position: sticky; top: 56px; z-index: 90; }
+  .cat-nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 0; overflow-x: auto; }
+  .cat-nav-item { font-family: var(--font-display); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-600); text-decoration: none; padding: 18px 24px; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .cat-nav-item:hover, .cat-nav-item.active { color: var(--navy); border-bottom-color: var(--green); }
+
+  /* SECTION COMMONS */
+  .section-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 16px; }
+  .section-tag::before { content: ''; width: 28px; height: 2px; background: var(--green); }
+  h2 { font-family: var(--font-display); font-size: clamp(34px, 4vw, 50px); font-weight: 800; line-height: 1; text-transform: uppercase; color: var(--navy); margin-bottom: 16px; }
+  h2 .accent { color: var(--green); display: block; }
+  .section-sub { font-size: 16px; color: var(--gray-600); line-height: 1.7; max-width: 640px; margin-bottom: 56px; }
+
+  /* BRAND SECTION */
+  .brand-section { padding: 96px 0; }
+  .brand-section:nth-child(odd) { background: var(--white); }
+  .brand-section:nth-child(even) { background: var(--gray-100); }
+  .brand-section-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .brand-header { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; margin-bottom: 56px; border-bottom: 2px solid var(--gray-200); padding-bottom: 32px; }
+  .brand-logo-box { display: flex; align-items: center; gap: 20px; }
+  .brand-logo-icon { width: 64px; height: 64px; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .brand-logo-icon svg { width: 32px; height: 32px; fill: var(--green); }
+  .brand-name { font-family: var(--font-display); font-size: 36px; font-weight: 800; text-transform: uppercase; color: var(--navy); letter-spacing: 1px; }
+  .brand-tagline { font-size: 14px; color: var(--gray-600); margin-top: 2px; }
+  .brand-header-right { text-align: right; }
+  .brand-country { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-400); margin-bottom: 4px; }
+  .brand-since { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--navy); }
+
+  /* PRODUCT CATEGORIES WITHIN BRAND */
+  .prod-category { margin-bottom: 56px; }
+  .prod-category:last-child { margin-bottom: 0; }
+  .prod-cat-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .prod-cat-icon { width: 48px; height: 48px; background: var(--green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .prod-cat-icon svg { width: 22px; height: 22px; fill: var(--navy); }
+  .prod-cat-title { font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase; color: var(--navy); }
+  .prod-cat-desc { font-size: 14px; color: var(--gray-600); margin-top: 2px; }
+  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .prod-card { background: var(--white); border: 1px solid var(--gray-200); overflow: hidden; transition: all 0.3s; cursor: default; }
+  .brand-section:nth-child(even) .prod-card { background: var(--white); }
+  .prod-card:hover { box-shadow: 0 12px 40px rgba(0,34,85,0.12); border-color: transparent; transform: translateY(-3px); }
+  .prod-card-img { aspect-ratio: 4/3; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .prod-card-img::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(120,204,144,0.04) 12px, rgba(120,204,144,0.04) 24px); }
+  .prod-card-img svg { width: 56px; height: 56px; fill: rgba(120,204,144,0.25); position: relative; }
+  .prod-card-badge { position: absolute; top: 12px; left: 12px; background: var(--green); color: var(--navy); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; }
+  .prod-card-body { padding: 20px; border-top: 2px solid var(--green); }
+  .prod-card-model { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-400); margin-bottom: 4px; }
+  .prod-card-name { font-family: var(--font-display); font-size: 17px; font-weight: 800; text-transform: uppercase; color: var(--navy); margin-bottom: 8px; line-height: 1.1; }
+  .prod-card-desc { font-size: 12px; line-height: 1.6; color: var(--gray-600); margin-bottom: 14px; }
+  .prod-card-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .prod-spec { background: var(--gray-100); font-size: 11px; font-weight: 600; color: var(--gray-600); padding: 3px 8px; }
+  .prod-card-link { font-family: var(--font-display); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-bottom: 2px solid var(--green); padding-bottom: 2px; transition: all 0.2s; }
+  .prod-card-link:hover { color: var(--green); gap: 12px; }
+  .prod-card-link::after { content: '→'; }
+
+  /* COMING SOON BRAND */
+  .coming-section { padding: 80px 0; background: var(--navy); }
+  .coming-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  .coming-inner .section-tag { color: var(--green); }
+  .coming-inner h2 { color: var(--white); }
+  .coming-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .coming-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 36px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .coming-card:hover { border-color: rgba(120,204,144,0.3); }
+  .coming-card::before { content: 'Brzy'; position: absolute; top: 16px; right: 16px; background: rgba(120,204,144,0.15); color: var(--green); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; padding: 4px 10px; border: 1px solid rgba(120,204,144,0.3); }
+  .coming-icon { width: 52px; height: 52px; background: rgba(120,204,144,0.1); border: 1px solid rgba(120,204,144,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .coming-icon svg { width: 24px; height: 24px; fill: var(--green); }
+  .coming-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase; color: var(--white); margin-bottom: 10px; }
+  .coming-desc { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.55); }
+
+  /* CTA */
+  .cta-section { padding: 96px 0; background: var(--green); position: relative; overflow: hidden; }
+  .cta-section::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,34,85,0.06) 40px, rgba(0,34,85,0.06) 41px); }
+  .cta-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; gap: 40px; position: relative; }
+  .cta-inner h2 { color: var(--navy); font-size: clamp(28px, 4vw, 44px); margin-bottom: 8px; }
+  .cta-inner p { color: rgba(0,34,85,0.7); font-size: 17px; max-width: 480px; line-height: 1.65; }
+  .cta-btns { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+  .btn-navy { background: var(--navy); color: var(--white); font-family: var(--font-display); font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; padding: 16px 36px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; transition: all 0.2s; }
+  .btn-navy:hover { background: var(--navy-dark); transform: translateY(-2px); }
+  .btn-white { background: var(--white); color: var(--navy); font-family: var(--font-display); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; padding: 14px 36px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; transition: all 0.2s; justify-content: center; }
+  .btn-white:hover { background: var(--gray-100); }
+
+  /* FOOTER */
+  footer { background: var(--navy); color: rgba(255,255,255,0.6); }
+  .footer-top { padding: 80px 0 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; }
+  .footer-brand p { font-size: 15px; font-weight: 500; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 20px 0 24px; }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a { width: 40px; height: 40px; border-radius: 50%; background: rgba(120,204,144,0.15); border: 1px solid rgba(120,204,144,0.3); display: flex; align-items: center; justify-content: center; color: var(--green); text-decoration: none; transition: all 0.2s; }
+  .footer-social a:hover { background: var(--green); color: var(--navy); }
+  .footer-social a svg { width: 18px; height: 18px; }
+  .footer-col h4 { font-family: var(--font-display); font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--white); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--green); display: inline-block; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+  .footer-col ul li a::before { content: '›'; color: var(--green); font-size: 16px; }
+  .footer-col ul li a:hover { color: var(--green); }
+  .footer-contact-text { list-style: none; }
+  .footer-contact-text li { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1.6; padding: 1px 0; }
+  .footer-bottom { background: #000d22; border-top: 2px solid rgba(120,204,144,0.15); padding: 18px 0; }
+  .footer-bottom-inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #ffffff; }
+  .footer-bottom a { color: var(--green); text-decoration: none; font-weight: 700; }
+
+  /* HAMBURGER */
+  .hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; width: 44px; height: 44px; cursor: pointer; background: none; border: 2px solid var(--navy); gap: 5px; flex-shrink: 0; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .prod-grid { grid-template-columns: repeat(2, 1fr); }
+    .coming-grid { grid-template-columns: repeat(2, 1fr); }
+    .brand-header { grid-template-columns: 1fr; gap: 16px; }
+    .brand-header-right { text-align: left; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  @media (max-width: 768px) {
+    .topbar-main-inner { flex-wrap: wrap; padding: 12px 20px; }
+    .topbar-contacts { width: 100%; order: 3; display: grid; grid-template-columns: repeat(3,1fr); margin-left: 0; gap: 8px; }
+    .topbar-socials { margin-left: auto; }
+    .hamburger { display: flex; }
+    .nav-inner { padding: 0 20px; justify-content: space-between; height: 52px; position: relative; }
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 52px; left: 0; right: 0; background: var(--white); box-shadow: 0 8px 24px rgba(0,34,85,0.15); z-index: 200; padding: 8px 0; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 14px 24px; border-bottom: 1px solid var(--gray-200); }
+    .nav-links a::after { display: none; }
+    .page-hero-inner { padding: 0 20px; }
+    .brand-section-inner, .coming-inner, .cta-inner { padding: 0 20px; }
+    .cat-nav-inner { padding: 0 20px; }
+    .prod-grid { grid-template-columns: 1fr; }
+    .coming-grid { grid-template-columns: 1fr; }
+    .cta-inner { flex-direction: column; }
+    .cta-btns { width: 100%; }
+    .btn-navy, .btn-white { width: 100%; justify-content: center; }
+    .footer-inner { padding: 0 20px; grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom-inner { padding: 0 20px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar-main">
+  <div class="topbar-main-inner">
+    <a href="index.html" class="topbar-logo">
+      <img src="data:image/png;base64,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RAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAeFRFHUU8kErd6ORhY4dYI0KpHEllq7JcX01QxxjJJil04SN6/j6wrxX8qqnp6qEw1MEc0Z52SNDh+IqGaFJEKNbRJVNTnZUKAALiAASTwACtbLWwzWqhlrKxhjqanTRh52MHNr3nq+JfforNaaOXytLbqWKQcz2xjUfEehe+uIqfAt1K9FwzIfjet1CIismsEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAUEzvzLtmV+DXXyugdV1U0nkKKka7dM0pBPE8dGgAknTqHOQp2s4beOFbtecDWe/26CSogss8prGRjUsjlDfrhHU0sAPVva82qnpmNfK1r9iKZzmsVW7lR1e1bmnUVD5aansdPET6MbKJzg0dWpeSV/Lzps2+qz/R59pfXyv2ozgrAlrwucBU9Z73w+SE8Nx9ziTj8Is8k70j0nXidSpL55n4N/wA9/qFruiVFskCKnuhQR6Kl1l+FIH502bfVZ/o8+0nnTZt9Vn+jz7Snnnmfg3/Pf6hPPM/Bv+e/1C+Zbv2E/KDGn7q/hT4+WW0hmtfce2az1Frt1yp6yrjhmggonNf5NzgHODg7hugk6nhw4rWeObncbLg28Xe0283Gvo6KWenpQCfKva0kN0HE8egcT0KisvtrLDF+vkFsxFYKjDrah4jjqvdYqIWuJ4eUO4wtHfoQOnQcVo4cRqFn1aYXpePD/ktwLdq2dcy9kdtRx3m7e8eY0VFbJZ36U1xgaWQAn7CUEnd7n66denOtQMc17Q5rg5pGoIOoIWfdofZzt2NHz4kweKe2Ygdq+eAjdgrT1nT4Eh+25iefn3lRGEM282slq3kveqOWWkp+Dbbdo3HybeuGQHUN6tC5nUFMtPHUpig5L5oRpM+FcMvNOpvpFkdm2VOI9H5dxl+nOLwQPxeR/tUOxttI5l490w/hW2+8wq/QEVsD5qyXX7EP01H+o0HvUTeHTqvNLf3O1rIkTkty8tobaFtWAfK2HDPua7YlHoyhx3oKL/SaEbz/ALwHhznT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" alt="Avando Systems" style="height:56px;display:block;">
+    </a>
+    <div class="topbar-contacts">
+      <div class="topbar-contact-item"><div class="tc-label">Kontaktní telefon</div><div class="tc-value">+420 777 550 464</div></div>
+      <div class="topbar-contact-item"><div class="tc-label">Email</div><div class="tc-value">info@avando.eu</div></div>
+      <div class="topbar-contact-item"><div class="tc-label">Pracovní doba</div><div class="tc-value">Po – Pá: 8:00 – 16:00</div></div>
+    </div>
+    <div class="topbar-socials">
+      <a href="#" class="ts-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="#" class="ts-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="#" class="ts-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" class="ts-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="header-separator"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Domů</a></li>
+      <li><a href="o-nas.html">O nás</a></li>
+      <li><a href="sluzby.html">Služby</a></li>
+      <li><a href="produkty.html" class="active">Produkty</a></li>
+      <li><a href="vyvoj.html">Vývoj</a></li>
+      <li><a href="reference.html">Reference</a></li>
+      <li><a href="kariera.html">Kariéra</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="page-hero-tag">Ověřené značky, prověřená kvalita</div>
+      <h1>Naše <span>produkty</span></h1>
+      <p>Zastupujeme prémiové světové výrobce a dodáváme jejich produkty s plnou servisní podporou přímo na český a slovenský trh.</p>
+    </div>
+    <div class="hero-brands">
+      <a href="#tefcold" class="hero-brand-item">
+        <div class="hero-brand-dot"></div>
+        <div>
+          <div class="hero-brand-name">Tefcold</div>
+          <div class="hero-brand-desc">Chladící, mrazící a topné technologie — Dánsko</div>
+        </div>
+      </a>
+      <a href="#creality" class="hero-brand-item">
+        <div class="hero-brand-dot"></div>
+        <div>
+          <div class="hero-brand-name">Creality</div>
+          <div class="hero-brand-desc">Profesionální 3D tiskárny a příslušenství — Čína</div>
+        </div>
+      </a>
+      <a href="#dalsi" class="hero-brand-item" style="opacity:0.5;">
+        <div class="hero-brand-dot" style="background:var(--gray-400);"></div>
+        <div>
+          <div class="hero-brand-name" style="color:rgba(255,255,255,0.5);">Další značky</div>
+          <div class="hero-brand-desc">Připravujeme rozšíření portfolia</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY NAV -->
+<div class="cat-nav">
+  <div class="cat-nav-inner">
+    <a href="#tefcold" class="cat-nav-item active">Tefcold</a>
+    <a href="#tefcold-chlazeni" class="cat-nav-item">Chladící zařízení</a>
+    <a href="#tefcold-mrazeni" class="cat-nav-item">Mrazící zařízení</a>
+    <a href="#tefcold-topeni" class="cat-nav-item">Topné technologie</a>
+    <a href="#creality" class="cat-nav-item">Creality</a>
+    <a href="#dalsi" class="cat-nav-item">Připravujeme</a>
+  </div>
+</div>
+
+<!-- ══ TEFCOLD ══ -->
+<section class="brand-section" id="tefcold">
+  <div class="brand-section-inner">
+    <div class="brand-header">
+      <div class="brand-logo-box">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21" stroke="rgba(120,204,144,0.6)" stroke-width="2"/><line x1="2" y1="10" x2="22" y2="10" stroke="rgba(120,204,144,0.4)" stroke-width="1"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">Tefcold</div>
+          <div class="brand-tagline">Prémiové chladící, mrazící a topné technologie pro profesionální provoz</div>
+        </div>
+      </div>
+      <div class="brand-header-right">
+        <div class="brand-country">Dánský výrobce</div>
+        <div class="brand-since">Od roku 1992</div>
+      </div>
+    </div>
+
+    <p style="font-size:16px;line-height:1.8;color:var(--gray-600);max-width:800px;margin-bottom:56px;">
+      Tefcold je přední dánský výrobce profesionálního chladícího, mrazícího a topného vybavení určeného pro gastro provoz, obchodní řetězce, potravinářský průmysl a servisní provozy. Avando Systems je autorizovaným partnerem Tefcold pro ČR a SR — zajišťujeme dodávku, instalaci i servis.
+    </p>
+
+    <!-- CHLADÍCÍ ZAŘÍZENÍ -->
+    <div class="prod-category" id="tefcold-chlazeni">
+      <div class="prod-cat-header">
+        <div class="prod-cat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/></svg>
+        </div>
+        <div>
+          <div class="prod-cat-title">Chladící zařízení</div>
+          <div class="prod-cat-desc">Vitríny, chladničky, pulty a skříně pro provozní chlazení potravin a nápojů</div>
+        </div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <span class="prod-card-badge">Bestseller</span>
+            <svg viewBox="0 0 24 24"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="14" x2="21" y2="14"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Vitrína</div>
+            <div class="prod-card-name">Chladící vitrína Curve</div>
+            <p class="prod-card-desc">Prosklená chladící vitrína s panoramatickým výhledem, ideální pro cukrárny a kavárny. LED osvětlení, tiché chlazení.</p>
+            <div class="prod-card-specs"><span class="prod-spec">+2 / +10 °C</span><span class="prod-spec">100–200 l</span><span class="prod-spec">LED</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><rect x="6" y="7" width="5" height="10"/><rect x="13" y="7" width="5" height="10"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Chladnička</div>
+            <div class="prod-card-name">Prosklená chladnička UGD</div>
+            <p class="prod-card-desc">Vzpřímená prosklená chladnička pro prezentaci nápojů a potravin. Vhodná pro bary, obchody a hotely.</p>
+            <div class="prod-card-specs"><span class="prod-spec">+2 / +8 °C</span><span class="prod-spec">200–600 l</span><span class="prod-spec">Tichý chod</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="12" rx="2"/><path d="M6 8V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Pult</div>
+            <div class="prod-card-name">Chladící bar pult</div>
+            <p class="prod-card-desc">Zapuštěné nebo volně stojící chladící pulty pro gastronomii. Nerezové provedení, snadná hygiena.</p>
+            <div class="prod-card-specs"><span class="prod-spec">+2 / +10 °C</span><span class="prod-spec">Nerez</span><span class="prod-spec">GN nádoby</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Salátový bar</div>
+            <div class="prod-card-name">Chladící salátový modul</div>
+            <p class="prod-card-desc">Otevřený chladící modul pro prezentaci salátů, dezertů a studených předkrmů. Volitelná výška a délka.</p>
+            <div class="prod-card-specs"><span class="prod-spec">0 / +8 °C</span><span class="prod-spec">Modulární</span><span class="prod-spec">Gastro</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MRAZÍCÍ ZAŘÍZENÍ -->
+    <div class="prod-category" id="tefcold-mrazeni">
+      <div class="prod-cat-header">
+        <div class="prod-cat-icon">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div>
+          <div class="prod-cat-title">Mrazící zařízení</div>
+          <div class="prod-cat-desc">Mrazáky, mrazící truhly a ostrůvky pro skladování a prezentaci mrazených produktů</div>
+        </div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <span class="prod-card-badge">Novinka</span>
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><path d="M12 9v12"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Mrazák</div>
+            <div class="prod-card-name">Prosklená mrazící skříň</div>
+            <p class="prod-card-desc">Vzpřímená prosklená mrazící skříň pro prezentaci zmrzliny, mražených výrobků a hotových jídel.</p>
+            <div class="prod-card-specs"><span class="prod-spec">-18 / -22 °C</span><span class="prod-spec">200–700 l</span><span class="prod-spec">LED</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="10" width="20" height="12" rx="2"/><rect x="6" y="6" width="4" height="4"/><rect x="14" y="6" width="4" height="4"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Truhla</div>
+            <div class="prod-card-name">Mrazící truhla s víkem</div>
+            <p class="prod-card-desc">Horizontální mrazící truhla s prosklením pro obchody a supermarkety. Energeticky úsporná, tichá.</p>
+            <div class="prod-card-specs"><span class="prod-spec">-18 / -24 °C</span><span class="prod-spec">200–900 l</span><span class="prod-spec">A+++</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="1" y="6" width="22" height="13" rx="2"/><path d="M5 6V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Ostrůvek</div>
+            <div class="prod-card-name">Mrazící ostrovní vitrína</div>
+            <p class="prod-card-desc">Volně stojící mrazící ostrůvek pro středové umístění v prodejně. Ideální pro zmrzlinu a mražené potraviny.</p>
+            <div class="prod-card-specs"><span class="prod-spec">-15 / -22 °C</span><span class="prod-spec">Ostrůvek</span><span class="prod-spec">LED</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="16" r="3"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Kombinace</div>
+            <div class="prod-card-name">Kombinovaná chladnička/mrazák</div>
+            <p class="prod-card-desc">Dvouzónové zařízení s nezávislým nastavením teploty. Úspora prostoru, flexibilní využití.</p>
+            <div class="prod-card-specs"><span class="prod-spec">Dvojzóna</span><span class="prod-spec">400 l</span><span class="prod-spec">Nerez</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOPNÉ TECHNOLOGIE -->
+    <div class="prod-category" id="tefcold-topeni">
+      <div class="prod-cat-header">
+        <div class="prod-cat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 4a6 6 0 1 0 0 12A6 6 0 0 0 12 6zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
+        </div>
+        <div>
+          <div class="prod-cat-title">Topné technologie</div>
+          <div class="prod-cat-desc">Ohřívací vitríny, teplé pulty a výdejní stanice pro udržení teploty pokrmů</div>
+        </div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="3" y="2" width="18" height="20" rx="2"/><path d="M8 12h8M8 16h4" stroke="rgba(120,204,144,0.4)" stroke-width="2"/><circle cx="12" cy="8" r="2" fill="rgba(120,204,144,0.3)"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Ohřívač</div>
+            <div class="prod-card-name">Ohřívací vitrína Hot Display</div>
+            <p class="prod-card-desc">Prosklená ohřívací vitrína pro prezentaci a udržení teploty hotových pokrmů. Vhodná pro rychlé občerstvení a samoobsluhu.</p>
+            <div class="prod-card-specs"><span class="prod-spec">+60 / +90 °C</span><span class="prod-spec">GN nádoby</span><span class="prod-spec">LED</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="12" rx="2"/><path d="M7 8V5M12 8V3M17 8V6" stroke="rgba(120,204,144,0.4)" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Teplý pult</div>
+            <div class="prod-card-name">Výdejní teplý pult Bain-Marie</div>
+            <p class="prod-card-desc">Vodní lázeň pro šetrné udržení teploty polévek, omáček a příloh. Nerezové provedení, GN kompatibilní.</p>
+            <div class="prod-card-specs"><span class="prod-spec">+70 / +85 °C</span><span class="prod-spec">Nerez</span><span class="prod-spec">Bain-Marie</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" stroke="rgba(120,204,144,0.4)" stroke-width="2" stroke-linecap="round"/><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="rgba(120,204,144,0.2)" stroke-width="1"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Infra ohřev</div>
+            <div class="prod-card-name">Infračervená ohřívací lampa</div>
+            <p class="prod-card-desc">Stropní nebo stojanová infračervená lampa pro udržení teploty pokrmů v expedici. Rychlé nahřátí, rovnoměrné teplo.</p>
+            <div class="prod-card-specs"><span class="prod-spec">Infračervená</span><span class="prod-spec">250–500 W</span><span class="prod-spec">Gastro</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 4v16M16 4v16" stroke="rgba(120,204,144,0.3)" stroke-width="1.5"/><path d="M2 12h20" stroke="rgba(120,204,144,0.3)" stroke-width="1.5"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Tefcold · Kombinace</div>
+            <div class="prod-card-name">Chladící & topná linka</div>
+            <p class="prod-card-desc">Modulární systém propojující chladící a ohřívací pulty do jedné výdejní linky. Ideální pro školní jídelny a závodní stravování.</p>
+            <div class="prod-card-specs"><span class="prod-spec">Modulární</span><span class="prod-spec">Celá linka</span><span class="prod-spec">Na míru</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CREALITY ══ -->
+<section class="brand-section" id="creality">
+  <div class="brand-section-inner">
+    <div class="brand-header">
+      <div class="brand-logo-box">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="rgba(120,204,144,0.8)" stroke-width="2" stroke-linecap="round"/><rect x="3" y="16" width="18" height="4" rx="1" fill="rgba(120,204,144,0.2)"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">Creality</div>
+          <div class="brand-tagline">Profesionální 3D tiskárny pro firmy, školy a výzkumné instituce</div>
+        </div>
+      </div>
+      <div class="brand-header-right">
+        <div class="brand-country">Čínský výrobce</div>
+        <div class="brand-since">Globální lídr 3D tisku</div>
+      </div>
+    </div>
+    <p style="font-size:16px;line-height:1.8;color:var(--gray-600);max-width:800px;margin-bottom:56px;">
+      Creality je světový lídr ve výrobě FDM a resinových 3D tiskáren určených pro profesionální použití. Naše portfolio zahrnuje tiskárny pro prototypování, sériovou výrobu i vzdělávání — dodáváme hardware, filamenty i technickou podporu.
+    </p>
+    <div class="prod-category">
+      <div class="prod-cat-header">
+        <div class="prod-cat-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="16" r="2"/></svg>
+        </div>
+        <div>
+          <div class="prod-cat-title">FDM tiskárny</div>
+          <div class="prod-cat-desc">Filamentové tiskárny pro prototypy, modely a funkční díly</div>
+        </div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <span class="prod-card-badge">Doporučujeme</span>
+            <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" fill="rgba(120,204,144,0.15)"/><rect x="8" y="14" width="8" height="6" fill="rgba(120,204,144,0.3)"/><path d="M12 2v12" stroke="rgba(120,204,144,0.5)" stroke-width="2"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Creality · FDM</div>
+            <div class="prod-card-name">Ender-5 S1 Pro</div>
+            <p class="prod-card-desc">Profesionální tiskárna s kubickým rámem, rychlotiskovou hlavou a automatickou kalibrací. Tisk rychlostí až 250 mm/s.</p>
+            <div class="prod-card-specs"><span class="prod-spec">250 mm/s</span><span class="prod-spec">220×220×280 mm</span><span class="prod-spec">PLA/ABS/TPU</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="3" y="2" width="18" height="20" rx="2" fill="rgba(120,204,144,0.1)"/><rect x="7" y="12" width="10" height="8" fill="rgba(120,204,144,0.25)"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Creality · FDM</div>
+            <div class="prod-card-name">K1 Max</div>
+            <p class="prod-card-desc">Uzavřená komora, rychlotisk 600 mm/s, velký tiskový objem. Ideální pro firmy tiskující větší série.</p>
+            <div class="prod-card-specs"><span class="prod-spec">600 mm/s</span><span class="prod-spec">300×300×300 mm</span><span class="prod-spec">Uzavřená</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="rgba(120,204,144,0.1)"/><circle cx="12" cy="12" r="4" fill="rgba(120,204,144,0.2)"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Creality · Resin</div>
+            <div class="prod-card-name">Halot-Mage Pro</div>
+            <p class="prod-card-desc">Resinová LCD tiskárna s 8K rozlišením pro vysoce detailní tisky. Vhodná pro šperkařství, stomatologii a design.</p>
+            <div class="prod-card-specs"><span class="prod-spec">8K rozlišení</span><span class="prod-spec">228×128×230 mm</span><span class="prod-spec">Resin</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-card-img">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3" fill="rgba(120,204,144,0.08)"/><path d="M8 12h8M12 8v8" stroke="rgba(120,204,144,0.5)" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="prod-card-body">
+            <div class="prod-card-model">Creality · Příslušenství</div>
+            <div class="prod-card-name">Filamenty &amp; spotřební mat.</div>
+            <p class="prod-card-desc">Kompletní sortiment filamentů PLA, PETG, ABS, TPU, CF a resiny. Skladem pro okamžitou expedici.</p>
+            <div class="prod-card-specs"><span class="prod-spec">PLA / PETG / ABS</span><span class="prod-spec">TPU / CF</span><span class="prod-spec">Resin</span></div>
+            <a href="kontakt.html" class="prod-card-link">Poptávka</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMING SOON -->
+<section class="coming-section" id="dalsi">
+  <div class="coming-inner">
+    <span class="section-tag">Rozšiřujeme portfolio</span>
+    <h2>Připravujeme <span class="accent">novinky</span></h2>
+    <p style="font-size:16px;color:rgba(255,255,255,0.6);max-width:560px;line-height:1.7;margin-bottom:0;">Průběžně rozšiřujeme naše produktové portfolio o nové značky a kategorie. Sledujte nás nebo nás kontaktujte — rádi vám poradíme s výběrem.</p>
+    <div class="coming-grid">
+      <div class="coming-card">
+        <div class="coming-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg></div>
+        <div class="coming-title">Průmyslové skenery</div>
+        <p class="coming-desc">3D skenery a měřící systémy pro průmyslové aplikace, kontrolu kvality a reverzní inženýrství.</p>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="coming-title">Automatizační systémy</div>
+        <p class="coming-desc">Komponenty a systémy pro průmyslovou automatizaci, robotiku a řízení výrobních procesů.</p>
+      </div>
+      <div class="coming-card">
+        <div class="coming-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="coming-title">Energetické systémy</div>
+        <p class="coming-desc">Systémy pro monitorování a optimalizaci energetické spotřeby v průmyslových a komerčních objektech.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div>
+      <h2>Máte zájem o konkrétní produkt?</h2>
+      <p>Kontaktujte nás s poptávkou — připravíme individuální nabídku s cenou, dostupností a možností dopravy a instalace.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="kontakt.html" class="btn-navy">Odeslat poptávku <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="sluzby.html" class="btn-white">Přehled služeb</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACDAqYDASIAAhEBAxEB/8QAHQABAAMAAgMBAAAAAAAAAAAAAAcICQUGAgMEAf/EAFoQAAECBAIFCAQHCwYNAwUAAAECAwAEBQYHEQgSITFBExhRU2GRlNIiVXHTFBUWMkJSgQkjVFZXYpKVobHRM3Kjs7TBFyQnNzhDY2VzdZOisiV2wjQ1NmaC/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAMEBQYBAv/EAC4RAQAAAwgBAwQCAgMAAAAAAAABAwQCEhNRUpKh4REFITEiQWFxIzIUQoHR8P/aAAwDAQACEQMRAD8AplCEIBCEIBE94BYNydbprV0XYy4uUdOclJZlIdSP9YsjbqngNme/cdvRsCrAcvq60iaQoUeRKXZ1Y2a/1WgelWX2AHsi57LTbLKGWW0tttpCUISMgkDYABwEVKidd+mz8sb1StjL/ilx9/u+KlUWj0phLFMpUlJNJGQSwwlA/YI426LItS5ZVbFYock+VDIOhsIdT2hYyUO+P2871tiz2mF3FVW5L4QSGk8mtxa8t5CUAnIZjbujk6FVqbXKUxVaTONzclMJ1m3W9x4HftBB2EHaIp/VD6mF/LZ/k94fntTXGfDyasC4gwhbkxSpoFclMKG0gb0Ky2aydntBB7B0OL44jWlT71tWaoc+AkrGvLvZZll0fNWP3EcQSIo9cdGqFv1ybo1UYLM3KOFtxPDsI6QRkQeIIjQkTb8PEfl0vp1Z/kWPFr+0P/eXHwhCJ2iRaXRj0W5W/rTavG9qjPyNNnCfgEnJFKHXkA5cotSgrVSSDkAMyBnmBlnVqNK9DPESk3rg5S6TL6jFUtyVZp05LZ7dVCdVt0dKVpTv+sFDtIVX0q9HdWFLMrcNtzc7UrbmHORdVMhKnZN0/NC1JABSrbkrIZEZHeM6+RsNdNCpVz27P2/W5RE3Tp9lTMw0r6ST0HgQciCNoIBG6MtcdsNarhZiDOW1P670r/LU+bKchMy5J1VfzhkQocCDwyMB0OEIQCEIQCEIQCJw0VsB38XarNz9WmZqnWzT1BD8wwAHJh0jMNNlQIBA2qORyzTs9LZGeGdmVnEC9qbalDa1pudd1S4R6DLY2rcV+akZn9g2kRqlhvZ9HsKyqbalCa1JORaCNYj0nVnatxXSpSsyfbs2ZQFL9JfRXasW137vsaoT9RpsmNaoSc4UreZb4upUkJCkjiCMwNuZGeVWY1S0kb1olj4QV6frRQ4Z2UdkZSVO+ZedQpIRl0ZEkngkH2RlbAIQhAImPRbwUm8XbqdM66/JW3TdVU/NNj0nFH5rLZOzWO8nbqjbxAMcWFatYva76da9Bl+Xn594Ntg/NQN6lqPBKQConoBjVDCSxKPhvYdPtSiozalkaz75TkuYePz3VdpPcABuAgFjYbWJZMk3K2za1MkNQZcslgKfX2qdVmtR9pjma/b1AuCUVKV2iU6qS6xkpublkOpI9igY8btuKiWnb03cFxVFmnUyUSFPzDueSQTkBkASSSQAACSTkI4HDLFGxMSWZtyza81UlSZAmGi04y43nuJQ4lJ1TlvAygKlaYGjhT7RpTl+WBKut0ltX/qdOCisSoJyDrZO3Uz2FJz1cwRsz1anxsnOysvOyb8lOMNzEs+2pp5pxIUlxChkpJB3ggkZRmTpS4QzOFF/rYlG3F27Uip+lPqzOqnP0mVH6yMwO0FJ4nIIihCEAhCEAjv+C+El4Yr1tyQtqVbRLS+RnJ+YJSxLg7syASVHbkkAk9gzI6BGqOjPadPs/BC16fIspQ5NSDU9NrA2uvvIStZJ45ZhI7EgcICB5LQepQkAmcxBnVThG1bVOSGwf5pWSe8fZERYw6K+INiSjtVpRbuqkNAqcdkWlJmGkj6S2Tmcu1JVlvOUaOQgMZ4RpBj1oy2biN8Iq9IS3blyLzUZphv7xMq/2zY4n66clbczrboojiphneWGla+LLspLksFk/B5pv05eYA4tr3H2HJQz2gQHTYQhAIQhAIQhATtoyaO9QxdlZqu1Cqmj2/KvfB+Vba13ph0AFSUAkAABQzUc9pyAO3LsukjotjDmzHbwteuTVVp0mpAnpebbSHWkqUEhxKk5BQ1iARkCM88ztynn7n8rPR9bHRVpkf8AhEiaSEuJnAS+G1AECiTLm38xsq/ugMp499PlJifn5eRk2lPTMy6lpltO9a1EBIHtJEeiObsKrtW/fVArz7ZcZptTlpxxAG1SW3UrI7kwFyba0JbYFElTcd21ldULYMwJENIZSojalOuhRIG7M5Z78hujkeZNh5+NN0/pse6iy9EqlOrdIlatSZxmdkJtoOsPsq1kOJO4gx9kBVzmTYefjTdP6bHuocybDz8abp/TY91Fo4QFXOZNh5+NN0/pse6hzJsPPxpun9Nj3UWjhAVc5k2Hn403T+mx7qHMmw8/Gm6f02PdRaOEBVzmTYefjTdP6bHuocybDz8abp/TY91Fo4QFWH9CWwlNKDF23KhzgpfIKA+wIH74hHG7RWvOwKc/XaJNIueisJK31sMluZYQN6lNZnNI4qSTltJAEaKwO0ZGAxnhFkdOPB6WsS6mLwt2USxQK26pLrDackSs1kVFIHBKxmoDgQsbBkIrdAIQiVNGLCt3FfEpikzHKN0SSSJqqvI2ENA5BtJ4KWdg6BrHhAenBnA2/sVFmYoMg3K0lC9Rypzqi3LgjelOQKlq7Eg5cSIsPStB2REuk1TEOYW+R6QlqYlKQegFThJ9uyLcUamU+jUqWpVKk2ZKRlWw0wwygJQ2gbgAI+uAqUNCC2ctt9Vcnsk2/wCMeadCG1MvSvitE9ks0ItlCAqgjQitAfOvWun2MND+6PNOhHZYPpXlcBHY2yP/AIxayEBVZOhJY2fpXfcZHYlkf/CPPmS2F+Nly/0Hki00ICrPMlsL8bLl/oPJHi5oSWKUEN3dcaV8CoMkd2oItRCAoDivoeXnbUi9U7QqbV1SrSSpcslnkZsD81GZS57AQTwSYrQ824y6tl5tTbiFFK0KGRSRsII4GNlYp7p64NSq6avFS3JNLUyytKK4y0nIOpUQlMxkPpAkJV0gg8CSFKYQhAIQhAIQhAI++3qRP1+tylHpjJem5twNtpHTxJ6ABmSeABj4ItZoy4d/J6iC6asxq1WoN/eELG2XYO0exSthPQMh0xHNmQl2fKrWVMKeXG1H5+yRMOLSkLKtSVociAooGvMPZZF50/OWf3AcAAI5C6q7TraoE3W6q9yUrKo1lHio8EpHEk5ADtjkzsGZioukZiN8rrg+JqW/rUSnOEJUk7Jh4bC52gbQn7TxjPl2IzbXu5ulp7dXO9/3GLo+IV2VG9Loma5UVEFw6rDIOaWWh81A9nE8SSeMduwCxKdsmvCn1F5SqDPLAfSdvwdZ2B0D9ihxHaBEYQjRjYsxs3fs6i3Il25eFGHs0RacQ60l1paVtrSFJUk5hQO4g9ERBpKYc/Kah/KOksa1YpzZ5RCRtmGBtKe1SdpHSMx0R17RbxG+EMosasv/AH1tJNMdWfnJG0s+0b09mY4CLBRnRhak23LWrMyhn/mHMGdkImLSUw5+TNc+UlJY1aPUXDyiEDZLPnaR2JVtI6DmOiIdjSsW4W4eYOqkTrM6xC3Z+5HeMD8RqrhdiFI3RTdZ1lJ5KelQchMy6iNdB7dgIPBQBjo8I+krYW06/SrptuQuGiTSZqnT7CXmHU8UngRwIOYI3ggjhEfaTWEsnizh87T20ttV2Q1n6TMq2armW1tR+osAA9BCTwirmgtjL8lbjGHlwzWrRKs9nIOuK9GVmlbNXsQ5sHYrI8VGL7wGOFTkZymVKZptQlnZWclXVMvsuJyU2tJyUkjgQQRHzRdjTzwX+GSzmKltSmcwwgJrjDadq2xsTMAdKRkFdmR+iTFJ4BCEIBH6ASQAMyY/ItBoM4MfKu4k4hXFKa1DpL3+INOJ9Gbmk7dbtQ2cj0FWQ25KEBPWhlg4MOLJ+P63KhFz1tpK3gtPpSkvvQz2KOxSu3IfRzid6hOStPkJifnphuWlZZpTrzzitVDaEjNSiTuAAJj3xS7T0xn5VxeFVtTf3tBSquvtq+cremWB7Nil9uqngoQEI6UGLk1ixiC5OS63W7fp5UxSpdWz0M/SdUPrrIB7AEjhmYmhCAQhFkdCHBr5b3Z8ta/Ka9u0V4FltxPozk0MilOXFCNildJ1RtBMBPmhNg18g7Q+V9flNS5K0yClDiclScqcilvsUrYpXR6I2EHOxSiEpKlEAAZknhH7FWNOrGj5N0ReG1tzerWKkznU3m1bZWWUP5PMbluDuR/OBgIQ0y8aziNdnyat+aJtWkOkIUhXozswMwp7tSNoR2Zn6WQiXC6+a9h1ekldNvTHJzMurJxpRPJzDR+c0scUn9hyIyIBjq8IDXDCy+aJiLZEhdVBd1paaTk40ojXl3R89pfQpJ7xkRsIj4sasO6RihYE9a1VAbW4OVk5rVzVLTCQdRwd5BHFJI4xQTRNxiewrvtLNSecVbFVUlqot7SGVbkzCR0pz25b057yBlpbLvMzMu3MS7qHmXUBbbiFBSVpIzBBG8EcYDIG8rcq9o3RULbrsqqWqNPeLL7Z3ZjcoHikjIg8QQY4iNBNN7Bj5bWub4t6U1rio7J+ENtp9KclRmSMuK0bVDiRrDadWM+4BCEIBGveHaA3h/bjYGQTSpVI+xpMZCRr/Ym2x6CR6tl/6pMB03SSxPdwmw2Vc8tS26lNOzbcnLtOOFCAtYUrWURtIAQdg37NoiIcFtMOg1+aTSsRZFi3ppxeTU/LaypRWe4LBJU37c1J4kpjlvuixywLpw6bhlx/QTEZ9QGycnMy85KtTco+1MS7yAtp1pYUhaTtBBGwg9Ij4Lpt6h3TRH6LcVLlanTpgZOMTCApJ6COgjgRkRwMZnYH463vhTNJZpc0KjRFL1nqTNqJZOe8tne2rtGw8QYv3gnjXZOK1PBok78FqyEa0xSppQTMN9JSNziPzk9meR2QFXsftEar0P4RXsMy/WKaM1uUpw600wN/3s/61PZ8/d847Yqq+06w8th9tbTrailaFpIUlQ2EEHcY2ViIMd9H2ysVGXJ55n4nuLVybqkqgayzlsDyNgcG7oUMtigNkBmNCO/4w4RXrhZVfgty00mTcXqy1Rl81y0x7FZbFfmqyPZltjoEAhCEBon9z8GWj8k9NXmf3IiT8fcv8Bt95/i7P/2dcRpoBI1dHqWV9epzR/akf3RI+kKrVwJvo/7gnB3sqEBlDCEe+nykzUJ+XkJNlT0zMupZZbTvWtRASkdpJAgPdI1eqyLRakqnOyrZOZQy+pAz6cgY+j5R3D6+qni3P4xcS0dCSkqoDS7qu+oJq7jYUtFPaQGWVEfNzWCV5dPo59EVkx5wyqWE+ID1rz82ieaUymZk5tCNQPsqKgFFOZ1SClQIzO0b8oDq3yjuH19VPFufxjwNerpOZrVSJPH4Uv8AjHGwgOR+Pa565qPil/xh8e1z1zUfFL/jHHQgOR+Pa565qPil/wAYfHtc9c1HxS/4xx0IDkfj2ueuaj4pf8YfHtc9c1HxS/4xx0IDvFiYtYi2VUm52g3ZVGwhQKpZ59T0u4OhTaiUn25ZjgRGiejni5TcXbH+NmWkSdWk1BmpyQVmGnCMwpOe3UVkSM+gjblnGWkTvoL3W/buPlOp3KlMnXWXJGYTwKtUrbOXTroAz6FGAvBpFWc3fWDNyUDkg5MmTVMSezaJhr028ujMp1T2KMZURsxGQ2I9LRQ8Q7koradVFPq01KpHQG3VJH7oDgI0Q0ArRaoOCIr62gJy4ZtyYUsj0uRbUWm0+zNK1D+fGd8ax4DSCKZgnZMmhIGrQpNSsvrKZSpX/cTAdiuuvUy17aqNw1mYEvT6fLrmH3OISkZ5AcSdwHEkCM1Mbce75xJrsyv42nKTQgsiVpcq+W0JRwLhTlyi8t5OzPPIARaD7otcr1MwqpFuS7hR8dVHWfA+m0wnWKf01NH/APmKCwH1/GVR/D5r/rK/jH58ZVH8Pmv+sr+MfLCA+r4yqP4fNf8AWV/GPNNWqiRkmpTqR0B9X8Y+KEB93xxVvWk94hX8YfHFW9aT3iFfxj4YQH3fHFW9aT3iFfxjkreva8LeqCJ+iXPWJCYQQQtmcWnPsIzyUOw5gx1+EBpBoh44uYrW/NUm4ORbuilISp8tgJTNsk5B5KeBByCgNgJSRlrZCarhpMlXqDUKJUmg7JT8s5LPoP0kLSUqHcYzO0RLhft3SFtV5twpanpn4ueTwWl4FAB9iyg+1IjT+Ax6uujTNu3RVbfnP/qabOvSjuzeptZQT3iOMiXNMWnIpmkjd7DaQEOvszAy4l1htxX/AHKMRHAIQhAIQjm7Htqo3dc0pQqYjN6YV6ayM0tIHzlq7AO/YN5jyMfEPMXlq1CzCMY/Dv2jlh38rbi+OqoxrUWmuAqSobJh7elvtA2FX2DjFuo4q0aBTrXt2TodLb1JaVb1QT85at6lq6STmT7Y4vFK85KxrTmKxM6rkwfvcowTtedI2D2DeT0DpyjMmW4zbfs5Kqn26yd9P6hBHmk5iN8R0o2jR38qnPN/424g7WGT9HsUv9ic+kGKsR9laqc7WatNVWpPqfm5pwuOuK4k/uHADgI+ONCVLhLs+HSUlNZp5cLMPn7kIQiRae6TmZiSm2ZuUeWzMMLDjTiDkpCgcwQekGLqYLX7L35aaJpakIqkrk1PsjZkvLYsD6qssx0HMcIpLHaML7xnbHu2WrMrrLZ/k5tgHY80T6SfbxB6QIhnSsSz+VGvpIVEv2/tD4XbuOjU+4KHN0aqMh6Um2y24nj2EdBByIPAgRR/Ea0qhZV1zVDnwVBB15d7LIPNH5qx+4jgQRF5aLUpKs0mVqtOfS/KTTYdacTxSf3HpHAx0rHLD9q+rUUiXQhNYkgXJFw7NY/SbJ6FZfYQD0xTkTcO14j8MT0+rjTzLtv4j8/hSyEeyYZdl5hyXmG1tPNLKHELGSkqByII4EGPXGk6l+gkEEEgjcRGjWhpjIMSLK+Ia3NBV0UVpKHys+lNsbkP9qtyVduR+llGckdkw0vKs2BetOuuhO6k3JO6xQT6DzZ2LbX0pUMwe8bQIDXCZZZmZdyXmGkPMuoKHG1pCkrSRkQQd4I4RmlpZYOvYV34p2msrVbFWUp2mubSGTvUwo9Kc9me9JG8g5aG4Z3nRsQLJp110J3XlJ1vWKFH02XBsW2voUk5j9o2ER82LthUbEmw5+1K0nJuYTrMPhOa5Z4fMdT2g8OIJG4wGSkI5/EG0q1Y14VG1q/L8hPyLpQrL5rid6VpPFKhkQegxxtCpVRrtZk6NSJR2cn515LMuw2M1OLUcgBAdwwHw0quKmIMpbchrsyg+/VGbAzEtLgjWV/OO5I4kjhmRqTa1Cpds27IW/RJREpTpBlLMu0n6KR09JO8k7SSSd8dD0b8JqfhLYLVLTyb9anNV6qzaR/KO5bEJO/URmQPtOwqMd2vW5aRZ1q1G5q9MiWp1PZLry+J4BKRxUokADiSBARvpU4vy+FFgLXJONruSphTNLZOR1Dl6T6h9VGY9qikbs8szJyZmJybem5t9x+YfcU4664oqUtajmVEneSSTnHbsZsQqxidf09dNWUUB08nKS2tmmWYSTqNj2Z5k8VEnjHTIBCEebDTr7yGGG1uuuKCEIQnNSlE5AADeTAdswesCsYl39T7Uo6SlT6teZmCnNMswnLXcV7BuHEkDjGqFj2xR7NtOnWxQZYS9Pp7IaaTxVxKlHipRJUTxJMRfolYPtYWWCl6psoNzVdKXqivYSwN6GAehOe3LeoneAIl6s1KQo1Jm6tVJpuUkZNlT8w+4cktoSM1KPsAgOj6QGJ9Nwpw9mrgmuTeqDubFMlFHbMPkbM+Oon5yj0DLeRGXNxVmpXDXZ2uVibcm6hPPKfmHlnatajmfYOgDYBsEd90j8VZ/FjEJ+sLLjNHlc2KVKqP8kzn84jdrr+cr7BtCREZwCEIQCLs6BmNHwyVbwruWb/xhhBVQ33FbXGxtVLk9KRmU/m5j6IBpNH00yenKZUpapU+ZclpyVdS8w82rJTa0nNKgeBBAMBsfGe2m1gx8hLr+WVvSmpbdZeJcbbT6MlNHMlGXBC9qk9HpDYAM7caNOK0pixh0xVFqabrclqy9Wlk7NR3LYsD6iwNYdHpDbqmO8XtbNHvG1KjbNelhMU6oMlp5HEcQpJ4KSQCDwIEBkBCO5Yy4fVfDK/5+1aukr5FXKSkzq5JmWFE6jg9uWRHAgjhHTYBGvmHxzsK3j00uWP9EmMg414wzXymHFsufWpEoe9lEBBf3Rf/ADGUz/3Cx/UTEZ9xoH90YP8AkNpf/uJj+zzEZ+QCPppk/PUuoMVCmzj8nOS6w4y+w4UONqG4pUNoMfNCAuZo/wCl7kJe38Vh0IarjDf9e2kf96B7U71RcOlVCRqtOYqNMnJedkphAWzMMOBbbiTuKVDYRGOESVgpjVe+FNQBoU98JpTi9aYpU0SqXc6SBvQr85OXDPMbIDUGu0il12kzFJrVPlqhITKNR6XmGwtCx2gxTPH/AEQpqTMxX8Kyualtq3KI85m62OPIrV88fmqOt0FROUWJwOxysrFeRSilTXwCtoRrTFJmlgPJy3lB3OI/OTu2ZhOeUShAY3T8pNSE69JT0s9KzTCyh1l5soW2ob0qSdoI6DHojUjG/A2yMVpNblWlPgFbSjVYq0qkB5OW4LG5xPYrdtyKd8UIxmwLvzDCpKRUqc5UaUtWUvVJJtS2XBwCuLavzVduRI2wFz9A1Gro50tX152bV/Skf3R3bSUXyeAV8K6aNMJ70kf3x13QwpFRoujtbsrVJJ+SmXFTD/JPIKFhC31lBIO0ZpyI7CI5zSg/0fb2/wCVOf3QGV8dtwY/zw2Vnu+UEh/aER1KO2YNbMYLLP8Av+R/tCIDWyKEfdID/leoA/3Aj+0PRfeKD/dID/lhoI//AF9v+0PwFX4QhAIQhAIQhAIQhAIkvRalH53SFspmXBK01NDxy+q2CtX/AGpMRpFztADCSoyk69ijX5Ncs0uXVL0Zt1OSnAv57+R2hOr6KTxClHdkSFyoydx7cQ7jjfS29qTcM8AenJ9YjVqpzstTabNVGccDctKsrfeWdyUJSVKPcDGP1xVJ2s3BUaw+MnZ6admVj85ayo/vgPgjWrBSZROYOWXNIOYcoEkr2HkEZjvjJWNK9CK5EXDo80VnlAqYpDj1OfHRqK1kD/prbgIp+6YSry6XYs6kHkWnp5pZ/OWlgp/YhUUqjUPSqw5exMwgn6PT2wurya0z9OTsGu6gEFGf5yFLSOGZBO6MwZqXflZl2VmmXGH2Vlt1pxJSpCgcikg7QQdmUB6oQhAIQhAIQhAIQhAd/wBHKRdqGPVjMMglSa5KvnL6rbgcV+xJjVmKN/c9sM5ydumYxNqUspun09tyWpiljLln1jVcWnpSlBUnPpX+aYvJAZo6bz6H9Je5wg5hpEo2T2iVaJ/fEKx3PHG4EXVjBddfZWHGJuqPFhQ+k0lRS2f0EpjpkAhCEB+gEnIbTFw9HvDxNmWz8PqLIFbqKAuYzG1hG9LQ/ert2cBFP5d1bEw2+3lrtrC05jPaDmIvTh7etFvO3mKnT5tkO8mDMyxWNeXXl6QUN+We47iIq1UbV2EIfDH9YtTIS4Qs/Efl2CempaRknp2ceQxLsNqcdcWckoSBmSfsilOMt+TN+XY5OgrRTJbNqQZV9FGe1RH1lZZn7BwiRtJ3Etqoq+RlAnEOyiCFVB9lYUlxQ2hoEbCBvPbkOBiAoU0q7C9E9Lo8Ozi24e8fghCEWmwQhCAQhCAnLRdxD+KaoLNqz+UhOuZyK1nYy8foexf/AJfzjFoYztSpSFBSVFKgcwQciDFvsC8UafdVtsSFZqMuxXpVPJupecCDMpG5xOe8kbwOIJ3ERSqZX+0GB6rR+I41iH7/AO3RtKjDxDJVfdJaCUKUlFTbSMvSJAS79pySe3I8TFeYtFpOYg0Zq0X7Sps6xOVCeUgTAZWFCXbSoK9IjZrEpAy35ZnZszq7E1PG1c91/wBMjMjIhf8A+P0QhCJ2gnzQ1xkOG17fEVbmii1604lEwVq9GUf3If7BuSrsyP0QI0cSQpIUkggjMEcYxni+Wg5jazcVvs4c3PPoTW6cgIpjry8jOS4GxvM71oGzLeU5b9VRgO+aUWBEni/SpObp81LUy5JD0GJt1BKHmScy05q7cgdoORyOez0jHFaLujpKYUzExcFwTcnV7ldBaYdYSrkZRojaEawBK1cVZDZsG85z/CARnvpt4z/Lm6jZdvTetblGeIdcbV6M7NDMFefFCNqU9J1jtBGU5abGNzVmW07Y1tT6TclUaKJpxpfpSEuobSSPmuLGwDeASrZ6JOfsAhCEAi22gVg2mr1JOKVwywVIyTpRRmVjMOvpOSn/AGIOYT+dmdmrtqTF89BDFi3ZvDqVw7qlQlpCs0px0SjbywgTbLjinM0E71pUpQKd+WR27cgtLFHdPHGf42qK8Lrbm85CTcCq082rY88k5hjMb0oO1X52Q+jtmzSyxwkMN7MfpdBqMs9dlRSWZZtpxK1SaSPSfWBuyHzQd6tu0AxnA64486t11anHFqKlrUcyoneSeJgPCEIQCEIQCEIQEiaPmJ9RwpxElLgl+UepzuTFTlEn+XYJ25D6yfnJPSMtxMaj0Kq0+u0WTrNJmm5uQnWUvy7zZzStChmDGOkWv0Hcc5K11OYe3nVGpSjvKLtKm5heq3LOk5raUo7EoV84E5AKz+tsCw+lZhAxitYKxItNouSlpU9THjkOU2ekwo/VXkMuhQSd2eeZbra2nVNOoUhaFFKkqGRBG8GNT8XcZLKw8tCZrM1WqfOTpaJkJBiYSt2acy9EAJJITnlmrcB25A5aT0y9Ozr85MK1nn3FOuHLLNSjmf2mA9Ma34QL5TCaz3PrUKSPewiMkI040a8TbKr2DtsSrNxU1ifptKl5KdlH5lDbrTjTaUKJSog6p1cwdxB9sB0X7o6vLBOio+tcbJ7paZ/jFAYuL90DxLtK4KBRbMt+sSlWnZeofDZtco6HWmAltaEoK07ColZ2A5jV25ZiKdQCEIQCEIQHvp85N0+dZnpCaflJphYcZeZcKFtqG5SVDaD2iLeaP+l6/LCXoGKoXMMjJDVbYbzWkf7dA+cPz0jPpB2mKeQgNjKJVaZW6XL1Wjz8tUJGYTrszEu6HG1jpChsMfZGU2D2L17YWVT4TbVSJk3FhUzTpjNcs/7U5+ir85JB7ctkXqwZ0mcPL/lG5epT7FsVsAByTqD6UNrP+ydOSVDsOSuzjATfEaaUrzbGj1eq3VBKTTFoBPSohIHeQI7ZVr1s6kSRnapdVDk5YDPlHp9pCT7M1bfsilumPpEUq+qX8hLHdceovLJcqE+pBQJooOaW0JO3UCgFEkDMgZbBmQqxHasHjli3Zx6K9I/2hEdVjmbFqjFDvahVuZStTFPqUvNOpQPSKW3UqIHbkIDX+IoxlwDsjFa45WvXNMVlqalZQSjYk5hDaNQLWsZhSFbc1nj0RIVtXJQblo0vWaDVpOoSEygLaeZdCgQeB6COIO0HYY5BU1LJOSphlJ7ViArrzNMJfw26fHNe6hzNMJfw26fHNe6ixHwyU/CmP+oI8kzUso5JmGVHsWDAV15mmEv4bdPjmvdQ5mmEv4bdPjmvdRYzlmetR+kI8kLQv5qkqy6DnAVvVoZYTE7KjdafZOs+5j85mGE/rO7PGs+5iyUICuHM0wl/Dbp8c17qPZzN8I/wi5vHo93FilEJGaiAOkx48sz1qP0hAQ9ZejLg9a883PtW0qqTTRCm11N9UwlJ/wCGckH7UmJjSlKUhKQEpAyAAyAEfJN1WlybKnpupScu2net19KUj7SYhjGDSew4seQfZo9SYuitgENStPdC2Uq6XHhmkDsTrK7OMBxenXiSxaWFbtqScwBWbkSZcISfSblf9as9ih97HTrKy+aYzujseI96V/EC7py57lm/hE9MnLJIybaQPmtoT9FI4D2k5kknrkAiy2gLiSzauIczZ1VmA1Trj1Ey6lnJLc2nPUHZrglParUEVpjybWtpxLja1IWghSVJORBG4gwGy0RlifgRhliJPqqVwW+EVNWxc9JOqYeX/P1fRWd21QJ2RDOjfpX0efpcrbWKE4KfU2UhtmsLBLM0BsHKkfMX0q+ad5KeNo6TXKLV5ZM1SavT59hQzS7LTKHUkdhSSICBOZvhF19y+PR7uPFWhrhITmJu6E9gnm/dRYrlmetR+kI/UuNqOSVpUegGArkdDPCUjIT90jtE817qPDmYYT+s7s8az7mLJQgK28zDCf1ndnjWfcx5J0M8JQMjP3UrtM817qLIEgDMnICPDlmetR+kICufM0wl/Dbp8c17qOQoWiHg7TZ9uamJWtVRKDmGJye+9k9obSgn2ZxPnLM9aj9IR61TkmkEqmmE5b83BsgPGlyEjS6dL06myjEnJyyA2yww2ENtpG5KUjYBEX6V2IzOHOEFTm2pgIrFTQqQpiAfS5RYyU4OxCc1Z7s9UcY+7FDHPDXD6nuu1W45ScnkpPJ06QdS/MOK4ApScke1ZAjPHHTFSv4s3kuu1jKXlWQWqfIoVm3KtZ55Z/SUd6lcT0AAAOgQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAQhCAR5sOusPIfYcW062oKQtCiFJUNoII3GPCEBNNo6UGMluyaJMXI3VmGxkgVOWS+sDtc2LV9qjHtunSoxlrsmuUTcEvSWnBks02US0sjsWdZSfakgxCMID2zczMTk07NTb7sxMPLK3XXVlS1qO0kk7ST0mPVCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhEzYKYKru2nor9xTD8nSnCfg7LWQdmAN6syDqpz2biTt3bCZan8A8OpiSLDEjOybuWQfam1qUD05LJT+yILVRYsx8M+d6nIlW7kff9KfwjumLOHtTw/riJSacE1IzAKpSbSnVDgG9JHBQzGY7QYRNZtQtQ8wXZcyzMswtWY+YRdq5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrviO7Mz4QYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSHN4v7raN4pXkiJOUc6xXfDlHOsV3wuzM+DDqNcNvaW+bxf3W0bxSvJDm8X91tG8UryREnKOdYrvhyjnWK74XZmfBh1GuG3tLfN4v7raN4pXkhzeL+62jeKV5IiTlHOsV3w5RzrFd8LszPgw6jXDb2lvm8X91tG8UryQ5vF/dbRvFK8kRJyjnWK74co59dXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSHN4v7raN4pXkiJOUc6xXfDlHOsV3wuzM+DDqNcNvaW+bxf3W0bxSvJDm8X91tG8UryREnKOdYrvhyjnWK74XZmfBh1GuG3tLfN4v7raN4pXkhzeL+62jeKV5IiTlHOsV3w5RzrFd8LszPgw6jXDb2lvm8X91tG8UryQ5vF/dbRvFK8kRJyjnWK74co51iu+F2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSHN4v7raN4pXkiJOUc6xXfDlHOsV3wuzM+DDqNcNvaW+bxf3W0bxSvJDm8X91tG8UryREnKOdYrvhyjnWK74XZmfBh1GuG3tLfN4v7raN4pXkhzeL+62jeKV5IiTlHOsV3w5RzrFd8LszPgw6jXDb2lvm8X91tG8UryQ5vF/dbRvFK8kRJyjnWK74co51iu+F2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSHN4v7raN4pXkiJOUc6xXfDlHOsV3wuzM+DDqNcNvaW+bxf3W0bxSvJDm8X91tG8UryREnKOdYrvhyjnWK74XZmfBh1GuG3tLfN4v7raN4pXkhzeL+62jeKV5IiTlHOsV3w5RzrFd8LszPgw6jXDb2lvm8X91tG8UryQ5vF/dbRvFK8kRJyjnWK74co51iu+F2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfHt2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfHl2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSHN4v7raN4pXkiJOUc6xXfDlHOsV3wuzM+DDqNcNvaW+bxf3W0bxSvJDm8X91tG8UryREnKOdYrvhyjnWK74XZmfBh1GuG3tLfN4v7raN4pXkhzeL+62jeKV5IiTlHOsV3w5RzrFd8LszPgw6jXDb2lvm8X91tG8UryQ5vF/dbRvFK8kRJyjnWK74co51iu+F2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSHN4v7raN4pXkiJOUc6xXfDlHOsV3wuzM+DDqNcNvaW+bxf3W0bxSvJDm8X91tG8UryREnKOdYrvhyjnWK74XZmfBh1GuG3tLfN4v7raN4pXkhzeL+62jeKV5IiTlHOsV3w5RzrFd8LszPgw6jXDb2lvm8X91tG8UryQ5vF/dbRvFK8kRJyjnWK74co51iu+F2ZnwYdRrht7S3zeL+62jeKV5Ic3i/uto3ileSIk5RzrFd8OUc6xXfC7Mz4MOo1w29pb5vF/dbRvFK8kObxf3W0bxSvJESco51iu+HKOdYrvhdmZ8GHUa4be0t83i/uto3ileSP1OjxfpUAp6jAZ7T8JVs/7IiPlHOsV3w5RzrFd8LszPgw6jXDb20JpsnL0+ny0hKNhuXlmktNIH0UpAAHcI98dGwXvuRva0pZ34Qj42lWktz7BPphYGWvl9VW8Hty3iO8xmWoRsx8RcjNsWpduNm18ur4k2pSruozEhVUp5NmYDyCdhB1VDLP7f2QiKdJfExMi7K2zbs8DPMPctOutHMNZJIDWfTtJI4ZCEWpUqZGz5hHw2KSkqYyoRs2vEIq1QhCLzoCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEIQCEdtwjsCuYmXxJ2pQQhL74Ljz7mfJy7KfnOKy4DMDLiSBxi5VJ0KMOmpFtFUuW6JubAHKOMOMMtk9iC2sge1RgKEQjQPmW4U+ubw8bL+4hzLcKfXN4eNl/cQGfkI0D5luFPrm8PGy/uI465dDXC+UoE/Ny90XJT3GJdbiZmcmmFMNaqSdZwBpJKRxyI2cYChsI+yhybNQrcjITE41JMzMy2y5MufMZSpQBWrsAOZ9kWoxp0Ppih2yitYb1Ofrzku1rTchNahedGWZWwUAA/zDmTwJOwhUuEeTrbjTq2nUKbcQopUlQyKSN4I4GPGAQhEx6OmAdyYs1FM4vlaTbDK8pipLb/AJQje2yD89XSdyeO3IEIchEvaVWFlAwmv2UoVv1uYqUvMyKZlbc0pCn5dRUpOSigAEHLMbAf3nvOjVouPYjW21d12VaapFFmSRJMSqU/CJlIJBc1lAhCcwQPRJOROwZEhWiEaBcy3Cn1zeHjJf3EfvMtwp9c3h42X9xAZ+QjQPmW4U+ubw8bL+4hzLcKfXN4eNl/cQGfkIn7S8wTtbCF+grtuuz02KmHQ5KT7ja3m9TVycBQlPonWI2jeN54fmiHgpa2L0zXlXJXZ6UFMS1yUpIuNoec19bNZK0q9EaoGwbzvHEIChGgfMtwp9c3h42X9xDmW4U+ubw8bL+4gM/IRoHzLcKfXN4eNl/cQ5luFPrm8PGy/uIDPyEXJx40VsPbJwsrV1Ue5K5LzlNZ5VtNRmGVtPHMAN5JbSdZWeQyO8jYYhvRPwot7Fq9qhSLirUzIS8nJ/CEMSi0JfmDrAeiVhQCU57dhO0boCGoRoHzLcKfXN4eNl/cQ5luFPrm8PGy/uIDPyEaB8y3Cn1zeHjZf3EOZbhT65vDxsv7iAz8hF/Z3QuwtEo8WrguyXWEEpdcmpdSUHLeRyIzH2j2iKW2dZU3deKEnYtHnWH3ZuoKlGpwDNsoSTrPZcU6qSrLogOqQi7F7aFFIatJxyz7nqj1fZb1g3UOT+DzKgPmjVSC3nwJKh09MUxq1PnqTU5mmVOVelJ2VdUy+w6nVW2tJyKSOBBgPlhCEAhFkNGTRjmcSqQbpu2dnaNb7hKZNEulImJzLetJWCEoB2AkHWOeWQGZ4TSvwHZwfnKXP0WpzVRodTK20GaCeWYdSAdVRSAFAg5ggDcQRuJCCoROmjFo9VDFxMzWqjUXKRbko7yJfbbCnpl0AEobB2AAEZqOe0gAHblY5OhZhUEgGt3go8T8Ml9v9BAZ+wjQPmW4U+ubw8bL+4hzLcKfXN4eNl/cQGfkI0D5luFPrm8PGy/uIh3Su0drKwssOVuS3bgqqplydRLGUqLzSy8FJUSW9RCCCnLM7xl0cQrRS6jP0qdRO0ydmJKZb+Y6w4ULH2jbHZp/FDECekjJzF11EskZEIWG1EdBUkAnvjp8I8jZhH5g+LUuxaj5tQhF+kkkkkkneTCPyEevshCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEBYv7n9c9HoGNEzIVV5qXXWacqTlHXDkC9yiFhvPhrBJy6SEjeYnjHXRsubEPEaduqn4kPU+WmkNpRJPMuLEvqoCSlBSsDVJBVuG1R374oZbdHqtfr8jRaHKOzdSnHktSzLWxS1k7Np2D2nIDeYtZS7G0zadItScrXp0MtpCUB2sS7qgOjWWST3wH28zW8vyqI8M97yHM1vL8qiPDPe8j1/JTTV9fv/rKUh8lNNX1+/8ArKUgPZzNby/Kojwz3vI67f2iLiZTaA/OUe65e5i0krXI6zjTrgG3JAUSlR7CR2ZnZHPfJTTV9fv/AKylImjRlpOOlMdrH+F6qszcqtLfwBtTrTrqV5nWOs2MgnLLYSdu7LbmGajrbjTq2nUKbcQopUlQyKSN4I4GLF6M2k1VsPQxbN4fCava4yQysHWmJAfmZn02/wAwnZ9H6pjPSQepUxjxeb1FLZklVV3It/NUvP74R2FeuYj6A0bvrBvB7HymC7rfqLLE9MDM1akqT98V0PtHeoccwlfAnhESv6DlSDxDGI0otvPYV0pSVZewOn98VTtm5Lgtif8Ah9uVuo0iayyLslMrZUodBKSMx2GNE9Ci67ivHBldWuerTFVn01R9kPvkFWolLZA2DtPfAdIw90NbMt+bFUvW4pi4m2PvnwZLXwSWAG374dZSlAfzkjpzEevHnSgtmyaQqz8JkyM7UGG+QTNy7afgMgkDLJsD0XFDgB6A4k5FMVAvHEzEC8GDLXLeFZqUsdpl3ZlQZJ6eTGSc/sjqMB9laqlRrVVmarVp1+enppwuPzD6ytbijvJJjRTB1clirokU+2rduByjziKQ3SZiYljm7KPtJSlWskEHJYTnvGaV74zfiYNHux8bqwicuPClU9IstOfB35pqfRLIdUAFahClAOZAg5ZEDMQE08zW8vyqI8M97yHM1vL8qiPDPe8j1/JTTV9fv/rKUh8lNNX1+/8ArKUgPZzNby/Kojwz3vI/DobXnkcsVGyeGcs97yPD5Kaavr9/9ZSkeTVqaaocSflA6No2qqEoQPaOMBA+PODl8YWVJhy51N1CRm1FEtU5dxTjbigM9RWsApKstuR37cicjEaS778s6HZd5xlwDIKbUUnvEaH6ZyxL6Kbsvdj0o9XlmQbQtoZIXOhaC6pscBqB4/zc4zsgPu+OKt60nvEK/jEkaMNTqT2kBZbTtQm3EKqaApKnlEEZHeM4imJK0XP9ISyf+aI/cYCwP3SacnJSpWOJWafY1mZ7W5Nwpz2sb8oqF8cVb1pPeIV/GLbfdMP/ALlYv/Bnv/JiKdwH0TU9OzSAiZnJh9IOYDjpUAftMSRo74Q1zFu4p+To1YlqQmmsJeemXQoqGsdVISE7ycjxG6Ivi1/3NqpSjF+XTS3XkomZunNOsoJyKw24dbLpI1we+A5rma3l+VRHhnveQ5mt5flUR4Z73kdrxjtnSnmMSKxM2JXlptx11K5FtE7LthtOonNOqsAg62cdQ+Smmr6/f/WUpAezma3l+VRHhnveQ5mt5flUR4Z73kev5Kaavr9/9ZSkPkppq+v3/wBZSkBxN86JF8Ua0KrV2cQpeqGSlXJhco4h1sOoQkqUkKKiM8gcsxlnxG+Iu0Nf9Jaz/wDjTH9ldiVbnsDTFrNAnaZVanNzkjMNKQ/Lt1SWSXkZbUeiQSCNmWe3dEXaHrLsvpO2nLvtLaeamJlDiFjJSVCWeBBHAgwFx8a8b0YWYwWxRq22lVs1aRWZt5KM3JVzlNVLoy2lIGxSd+W0bRkeraXeBcriTQRf9jtsvXCzLpcWmXIKarL6uaSCNinAnLVP0h6O30cov+6T/wD57an/ACtz+tMejQv0gPkvNS+Hl6TuVCmF6tMnXVbJFxR/k1k7mlE7D9EnoJKQqwtCm1qQtKkrSclJIyIPQYnvRHwJfxOr4uC4GHGrRp7v307UmedG3kUn6u7WUOGwbTmLHY0aKtu3/iLLXXTqp8RtTTuvWpdljW+EnPMuNnPJC1biSCCfSyzz1uT0gsU7cwCw4krWtKVlGqyuW5Gk09AzTLNjMF9wcQDnlntWrPf6RAfuOuN9Nw9uS28OrTblHK1Nzsow+2hA5KnSqloTq6o2Bak7Ep4Db9XPpv3SX/NvbH/OFf1K4p7ZdRnqvi1QqpU5t2bnZuuSzz77qtZbi1PpJUT0kxcL7pL/AJt7Y/5wr+pXAcpoK12l3Do/TNmyVRMjWKe5MtTBaUA82l5SlNvp9msQD0ojpT+hveS3lr/wscprKJ1lyz2srtP3w7YrxgRZuKN0XHMTmFyZ1moU1AU/OS84JYMheYCSsqGetqn0dueR2ZAxYAWnpqAZfH7/AOspSA9nM1vL8qiPDPe8hzNby/Kojwz3vI9fyU01fX7/AOspSHyU01fX7/6ylID2czW8vyqI8M97yIgx+wAxAw0kEVyrTrVfooUGzPy61qLBUcgHEK2oBOwEZjPIZgkCJb+Smmr6/f8A1lKRNd5prlN0RK61izOSc3W00CZROuo1dRbytYS4BAAK8y0MwMioZiAzPhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEAhCEB2jCaq1Ci4nW1U6XMqlptmpMBDgAOWssJOwgg5gkfbGtrCiphtSjmSkE90IQHnCEIBFfNN69LotDDhKrarD9MXNuBh5xlKdcoVsISojNJ7UkHthCAzrJJOZ2mPyEIBFqdEu7bio+AuJzdNqa5dNMlzOSeSEnkXltkKUCQd+onYdmzPphCAqtCEIBF3fubdWqL1u3PRXZlSqfLTLb7LJSMkLWnJRByz2hCdmeWztMIQFu4QhAI8H1FLDiknIhJI7oQgMytLG87ouXFSo0yt1h+bkaU8W5GXIShtkEAkhKQASeKjmdgGewRD8IQCOdw9qk/Rb6oVVpkwqWnJafZcZdAB1VBY4HMH2HZCEBN+n5WanUMWqdTpuaU7KSdKbXLtaoAQpwkrOwbc9VO/oEVzhCARydrV6sWzcEnXaBUHqfUpNzXYmGjkpB3HsIIJBBzBBIOYhCA1kw3qU7V7IpVSqL3LzUxLpW65qhOsSNpyAAH2R2GEIBCEIDibznJmn2nVp6Tc5KYl5RxxpeqDqqCSQcjsP2xljhRcFYk8Zbfr8tPLRU3Ku2tcxqglRdXquZgjL0gtQOzjCEBI+nZWKlUsdX5OdmlOsSEky1Ko1QA2lQKyNg25qJOZ29wiBIQgNANDy9LorGBE+9VKu9OO0oLYknHUpUptCB6KScs1ZbvSz2bIo3flwVq6buqVcuCovVCozL6i6+7lmctgAAyAAAAAAAAGyEIDiZGamJKdYnZR1TUxLuJdacTvQtJzBHsIizunbcdaqcjYMlPTynZd6mfDnG9RKQp9QSCvYBwJ2bhmchCEB5fc5qtUZfEmt0ZqZUmQm5APPs6oIWttWSFZ5ZjILVu357dwi+cIQCEIQCM/NO29bpnb+FozFYfVQpdCZhEklKUILmZGsrVAKiOGsTltyyzhCArVCEIBCEID//2Q==" alt="Avando Systems" style="height:44px;display:block;background:#001533;"></a>
+        <p>Průmyslové technologie a inovativní řešení pro firmy. Od roku 1991 budujeme spolehlivá partnerství po celé Evropě.</p>
+        <div class="footer-social">
+          <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigace</h4>
+        <ul>
+          <li><a href="index.html">Domů</a></li>
+          <li><a href="o-nas.html">O nás</a></li>
+          <li><a href="sluzby.html">Služby</a></li>
+          <li><a href="produkty.html">Produkty</a></li>
+          <li><a href="vyvoj.html">Vývoj</a></li>
+          <li><a href="reference.html">Reference</a></li>
+          <li><a href="kariera.html">Kariéra</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Produkty</h4>
+        <ul>
+          <li><a href="#tefcold-chlazeni">Chladící zařízení</a></li>
+          <li><a href="#tefcold-mrazeni">Mrazící zařízení</a></li>
+          <li><a href="#tefcold-topeni">Topné technologie</a></li>
+          <li><a href="#creality">3D tiskárny Creality</a></li>
+          <li><a href="#dalsi">Připravujeme</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontakt</h4>
+        <ul class="footer-contact-text">
+          <li>avando s.r.o.</li>
+          <li>Mírova 92/3, Adamov 679 04</li>
+          <li>Czech Republic</li>
+          <li style="margin-top:10px;">IČ: 291 81 984</li>
+          <li>ID datové schránky: qvixqbi</li>
+          <li style="margin-top:10px;">+420 777 550 464</li>
+          <li>info@avando.eu</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span>© 2025 avando s.r.o. — Všechna práva vyhrazena</span>
+      <span><a href="#">Ochrana osobních údajů</a> &nbsp;|&nbsp; <a href="#">Obchodní podmínky</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    var nav = document.getElementById('navLinks');
+    var btn = document.getElementById('hamburger');
+    if (nav.classList.contains('open')) {
+      nav.classList.remove('open'); btn.classList.remove('open');
+    } else {
+      nav.classList.add('open'); btn.classList.add('open');
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.nav-links a').forEach(function(l) {
+      l.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('navLinks').classList.remove('open');
+        document.getElementById('hamburger').classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      var nav = document.getElementById('navLinks');
+      var btn = document.getElementById('hamburger');
+      if (nav && nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+        nav.classList.remove('open'); btn.classList.remove('open');
+      }
+    });
+    // Active category nav on scroll
+    var sections = document.querySelectorAll('[id]');
+    var catLinks = document.querySelectorAll('.cat-nav-item');
+    window.addEventListener('scroll', function() {
+      var pos = window.scrollY + 130;
+      sections.forEach(function(s) {
+        if (pos >= s.offsetTop && pos < s.offsetTop + s.offsetHeight) {
+          catLinks.forEach(function(l) { l.classList.remove('active'); });
+          var match = document.querySelector('.cat-nav-item[href="#' + s.id + '"]');
+          if (match) match.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
